@@ -82,8 +82,7 @@ export default function AddPersistentTasks() {
     const previousTasks = tasks;
     try {
       const response = await createTaskMock({ title: trimmed }, failNextSave);
-      const nextTasks = [response.data, ...tasks];
-      setTasks(nextTasks);
+      setTasks([response.data, ...tasks]);
       setSummary(response.summary);
       setTitle("");
       setFailNextSave(false);
