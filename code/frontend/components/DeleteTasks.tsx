@@ -4,7 +4,10 @@ import { useMemo, useState } from "react";
 import { deleteTasksErrors, deleteTasksMock, type DeleteTask } from "../lib/mock/delete-tasks";
 import styles from "./DeleteTasks.module.css";
 
-type ViewState = "default" | "loading" | "empty" | "error";
+const VIEW_DEFAULT = "default";
+const VIEW_LOADING = "loading";
+const VIEW_EMPTY = "empty";
+const VIEW_ERROR = "error";
 
 function getMeta(tasks: DeleteTask[]) {
   const total = tasks.length;
@@ -15,12 +18,12 @@ function getMeta(tasks: DeleteTask[]) {
 
 export default function DeleteTasks() {
   const [tasks, setTasks] = useState(deleteTasksMock.data);
-  const [viewState, setViewState] = useState<ViewState>("default");
+  const [viewState, setViewState] = useState(VIEW_DEFAULT);
   const [notice, setNotice] = useState("Saved tasks loaded.");
   const [deleteShouldFail, setDeleteShouldFail] = useState(false);
-  const isEmpty = viewState === "empty";
-  const isLoading = viewState === "loading";
-  const isError = viewState === "error";
+  const isEmpty = viewState === VIEW_EMPTY;
+  const isLoading = viewState === VIEW_LOADING;
+  const isError = viewState === VIEW_ERROR;
   const visibleTasks = isEmpty ? [] : tasks;
   const meta = useMemo(() => getMeta(visibleTasks), [visibleTasks]);
   const hasDeleteError = notice === deleteTasksErrors.delete.error.message;
@@ -37,7 +40,7 @@ export default function DeleteTasks() {
 
   function resetDemo() {
     setTasks(deleteTasksMock.data);
-    setViewState("default");
+    setViewState(VIEW_DEFAULT);
     setNotice("Saved tasks loaded.");
     setDeleteShouldFail(false);
   }
@@ -56,10 +59,10 @@ export default function DeleteTasks() {
         </div>
 
         <div className={styles.demoControls} aria-label="Delete task UI states">
-          <button type="button" onClick={() => setViewState("default")}>Default</button>
-          <button type="button" onClick={() => setViewState("loading")}>Loading</button>
-          <button type="button" onClick={() => setViewState("empty")}>Empty</button>
-          <button type="button" onClick={() => setViewState("error")}>Error</button>
+          <button type="button" onClick={() => setViewState(VIEW_DEFAULT)}>Default</button>
+          <button type="button" onClick={() => setViewState(VIEW_LOADING)}>Loading</button>
+          <button type="button" onClick={() => setViewState(VIEW_EMPTY)}>Empty</button>
+          <button type="button" onClick={() => setViewState(VIEW_ERROR)}>Error</button>
           <button type="button" onClick={() => setDeleteShouldFail((value) => !value)} aria-pressed={deleteShouldFail}>
             {deleteShouldFail ? "Delete fails" : "Delete succeeds"}
           </button>
