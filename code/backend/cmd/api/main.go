@@ -3,21 +3,18 @@ package main
 import (
 	"context"
 	"database/sql"
-	"embed"
 	"errors"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
-
-//go:embed ../../migrations/*.up.sql
-var migrations embed.FS
 
 func main() {
 	databaseURL := os.Getenv("DATABASE_URL")
@@ -34,7 +31,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	if err := migrate(ctx, db); err != nil {
+	if err := migrate(ctx, db, "migrations"); err != nil {
 		log.Fatalf("migrate database: %v", err)
 	}
 	if err := db.PingContext(ctx); err != nil {
@@ -63,7 +60,7 @@ func main() {
 	}
 }
 
-func migrate(ctx context.Context, db *sql.DB) error {
+func migrate(ctx context.Context, db *sql.DB, dir string) error {
 	_, err := db.ExecContext(ctx, `
 		CREATE TABLE IF NOT EXISTS schema_migrations (
 			version text PRIMARY KEY,
@@ -74,7 +71,7 @@ func migrate(ctx context.Context, db *sql.DB) error {
 		return fmt.Errorf("create schema_migrations: %w", err)
 	}
 
-	entries, err := migrations.ReadDir("../../migrations")
+	entries, err := os.ReadDir(dir)
 	if err != nil {
 		return fmt.Errorf("read migrations: %w", err)
 	}
@@ -97,7 +94,7 @@ func migrate(ctx context.Context, db *sql.DB) error {
 			continue
 		}
 
-		sqlBytes, err := migrations.ReadFile("../../migrations/" + name)
+		sqlBytes, err := os.ReadFile(filepath.Join(dir, name))
 		if err != nil {
 			return fmt.Errorf("read migration %s: %w", name, err)
 		}
