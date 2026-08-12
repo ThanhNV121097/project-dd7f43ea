@@ -1,4 +1,90 @@
 .shell {
+  --color-bg: #F9FAFB;
+  --color-bg-end: #EEF6FF;
+  --color-surface: #FFFFFF;
+  --color-surface-soft: #F8FAFC;
+  --color-surface-muted: #F3F4F6;
+  --color-border: #E5E7EB;
+  --color-border-strong: #CBD5E1;
+  --color-text: #111827;
+  --color-text-inverse: #FFFFFF;
+  --color-text-muted: #6B7280;
+  --color-text-soft: #4B5563;
+  --color-label: #374151;
+  --color-primary: #2563EB;
+  --color-primary-hover: #1D4ED8;
+  --color-primary-soft: #DBEAFE;
+  --color-primary-soft-2: #EFF6FF;
+  --color-primary-accent: #60A5FA;
+  --color-primary-border: #BFDBFE;
+  --color-primary-check-border: #93C5FD;
+  --color-success: #10B981;
+  --color-success-text: #047857;
+  --color-success-bg: #ECFDF5;
+  --color-success-border: #A7F3D0;
+  --color-danger: #EF4444;
+  --color-danger-text: #B91C1C;
+  --color-danger-strong: #991B1B;
+  --color-danger-bg: #FEF2F2;
+  --color-danger-hover-bg: #FEE2E2;
+  --color-danger-border: #FECACA;
+  --color-window-red: #F87171;
+  --color-window-yellow: #FBBF24;
+  --color-window-green: #34D399;
+  --color-window-neutral: #CBD5E1;
+  --color-dark-panel: #0F172A;
+  --color-dark-muted: #CBD5E1;
+  --color-focus: rgba(37,99,235,.22);
+  --color-error-focus: rgba(239,68,68,.12);
+  --space-1: 2px;
+  --space-4: 8px;
+  --space-5: 9px;
+  --space-6: 10px;
+  --space-7: 11px;
+  --space-8: 12px;
+  --space-9: 13px;
+  --space-10: 14px;
+  --space-11: 15px;
+  --space-12: 16px;
+  --space-13: 18px;
+  --space-14: 20px;
+  --space-16: 24px;
+  --space-17: 28px;
+  --space-18: 32px;
+  --space-19: 34px;
+  --space-20: 36px;
+  --space-23: 72px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-nav: 14px;
+  --text-xl: 20px;
+  --text-3xl: 32px;
+  --text-display: clamp(40px,6vw,72px);
+  --radius-xs: 10px;
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+  --radius-xl: 18px;
+  --radius-2xl: 22px;
+  --radius-card: 28px;
+  --radius-feature: 30px;
+  --radius-preview: 32px;
+  --radius-full: 999px;
+  --border-width: 1px;
+  --border-width-strong: 2px;
+  --focus-ring-width: 4px;
+  --shadow-card: 0 18px 55px rgba(15,23,42,.08);
+  --shadow-preview: 0 24px 70px rgba(37,99,235,.13);
+  --shadow-logo: 0 14px 30px rgba(37,99,235,.28);
+  --shadow-primary: 0 16px 34px rgba(37,99,235,.28);
+  --shadow-help: 0 24px 70px rgba(15,23,42,.22);
+  --shadow-toast: 0 18px 50px rgba(17,24,39,.22);
+  --duration-fast: .18s;
+  --duration-base: .2s;
+  --duration-progress: .25s;
+  --duration-loading: 1.2s;
+  --easing: ease;
+  --easing-loading: linear;
   min-height: 100vh;
   color: var(--color-text);
 }
@@ -101,9 +187,7 @@ button,
   box-shadow: var(--shadow-preview);
 }
 
-.navOpen {
-  display: flex;
-}
+.navOpen { display: flex; }
 
 .nav a {
   border-radius: var(--radius-sm);
@@ -119,9 +203,7 @@ button,
   color: var(--color-primary);
 }
 
-.main {
-  padding: var(--space-19) 0 var(--space-23);
-}
+.main { padding: var(--space-19) 0 var(--space-23); }
 
 .hero {
   display: grid;
@@ -213,15 +295,9 @@ button,
 .windowDots span:nth-child(2) { background: var(--color-window-yellow); }
 .windowDots span:nth-child(3) { background: var(--color-window-green); }
 
-.previewTitle {
-  color: var(--color-text-muted);
-  font-weight: 800;
-}
+.previewTitle { color: var(--color-text-muted); font-weight: 800; }
 
-.previewStats {
-  display: grid;
-  gap: var(--space-8);
-}
+.previewStats { display: grid; gap: var(--space-8); }
 
 .previewStats span,
 .summaryList div {
@@ -231,15 +307,9 @@ button,
   padding: var(--space-10);
 }
 
-.previewStats strong {
-  display: block;
-  font-size: 22px;
-}
+.previewStats strong { display: block; font-size: 22px; }
 
-.appGrid {
-  display: grid;
-  gap: var(--space-16);
-}
+.appGrid { display: grid; gap: var(--space-16); }
 
 .todoPanel,
 .progressPanel,
@@ -257,10 +327,7 @@ button,
   gap: var(--space-8);
 }
 
-.panelHeader {
-  align-items: flex-start;
-  justify-content: space-between;
-}
+.panelHeader { align-items: flex-start; justify-content: space-between; }
 
 .panelHeader h2,
 .progressPanel h2,
@@ -279,19 +346,10 @@ button,
   font-weight: 900;
 }
 
-.savedBadge {
-  background: var(--color-success-bg);
-  color: var(--color-success-text);
-}
+.savedBadge { background: var(--color-success-bg); color: var(--color-success-text); }
+.savingBadge { background: var(--color-primary-soft-2); color: var(--color-primary-hover); }
 
-.savingBadge {
-  background: var(--color-primary-soft-2);
-  color: var(--color-primary-hover);
-}
-
-.form {
-  margin-top: var(--space-16);
-}
+.form { margin-top: var(--space-16); }
 
 .form label {
   display: block;
@@ -301,9 +359,7 @@ button,
   font-weight: 900;
 }
 
-.formRow {
-  flex-direction: column;
-}
+.formRow { flex-direction: column; }
 
 .form input {
   width: 100%;
@@ -337,11 +393,11 @@ button,
   color: var(--color-danger-strong);
   padding: var(--space-8) var(--space-10);
 }
-
 .toolbar {
   flex-wrap: wrap;
   margin: var(--space-13) 0;
 }
+
 .filterButton,
 .filterActive,
 .ghostButton,
@@ -365,10 +421,7 @@ button,
   color: var(--color-text-inverse);
 }
 
-.ghostButton {
-  border-color: var(--color-primary-border);
-  color: var(--color-primary);
-}
+.ghostButton { border-color: var(--color-primary-border); color: var(--color-primary); }
 
 .ghostButton:hover,
 .ghostButton:focus-visible {
@@ -385,9 +438,7 @@ button,
 }
 
 .dangerButton:hover,
-.dangerButton:focus-visible {
-  background: var(--color-danger-hover-bg);
-}
+.dangerButton:focus-visible { background: var(--color-danger-hover-bg); }
 
 .menuButton:focus-visible,
 .primaryLink:focus-visible,
@@ -401,10 +452,7 @@ button,
   box-shadow: 0 0 0 var(--focus-ring-width) var(--color-focus);
 }
 
-.list {
-  display: grid;
-  gap: var(--space-8);
-}
+.list { display: grid; gap: var(--space-8); }
 
 .taskRow,
 .taskDone {
@@ -416,14 +464,8 @@ button,
   transition: transform var(--duration-fast) var(--easing), border-color var(--duration-fast) var(--easing);
 }
 
-.taskRow {
-  background: var(--color-surface);
-}
-
-.taskDone {
-  background: var(--color-surface-soft);
-  color: var(--color-text-muted);
-}
+.taskRow { background: var(--color-surface); }
+.taskDone { background: var(--color-surface-soft); color: var(--color-text-muted); }
 
 .taskRow:hover,
 .taskDone:hover {
@@ -483,9 +525,7 @@ button,
   text-align: center;
 }
 
-.emptyState strong {
-  color: var(--color-text);
-}
+.emptyState strong { color: var(--color-text); }
 
 .emptyIcon {
   display: grid;
@@ -500,19 +540,10 @@ button,
   font-weight: 900;
 }
 
-.loadError {
-  display: grid;
-  gap: var(--space-8);
-}
+.loadError { display: grid; gap: var(--space-8); }
 
-.progressPanel {
-  align-self: start;
-}
-
-.progressPanel p {
-  color: var(--color-text-muted);
-  line-height: 1.6;
-}
+.progressPanel { align-self: start; }
+.progressPanel p { color: var(--color-text-muted); line-height: 1.6; }
 
 .meter {
   height: 12px;
@@ -535,24 +566,11 @@ button,
   margin: var(--space-14) 0 0;
 }
 
-.summaryList div {
-  display: flex;
-  justify-content: space-between;
-}
+.summaryList div { display: flex; justify-content: space-between; }
+.summaryList dt { color: var(--color-text-muted); font-weight: 800; }
+.summaryList dd { margin: 0; font-weight: 900; }
 
-.summaryList dt {
-  color: var(--color-text-muted);
-  font-weight: 800;
-}
-
-.summaryList dd {
-  margin: 0;
-  font-weight: 900;
-}
-
-.states {
-  margin-top: var(--space-23);
-}
+.states { margin-top: var(--space-23); }
 
 .stateGrid {
   display: grid;
@@ -560,19 +578,9 @@ button,
   margin: var(--space-16) 0;
 }
 
-.stateCard {
-  min-height: 220px;
-}
-
-.stateCard h3 {
-  margin: 0;
-  font-size: var(--text-xl);
-}
-
-.stateCard p {
-  color: var(--color-text-muted);
-  line-height: 1.5;
-}
+.stateCard { min-height: 220px; }
+.stateCard h3 { margin: 0; font-size: var(--text-xl); }
+.stateCard p { color: var(--color-text-muted); line-height: 1.5; }
 
 .skeletonWrap,
 .skeletonCompact {
@@ -590,9 +598,7 @@ button,
   background: var(--color-surface-soft);
 }
 
-.skeletonCompact span {
-  height: 18px;
-}
+.skeletonCompact span { height: 18px; }
 
 .skeletonWrap span::after,
 .skeletonCompact span::after {
@@ -604,9 +610,7 @@ button,
 }
 
 .miniEmpty,
-.miniError {
-  margin: var(--space-12) 0;
-}
+.miniError { margin: var(--space-12) 0; }
 
 .miniEmpty {
   border: var(--border-width) dashed var(--color-border-strong);
@@ -625,9 +629,7 @@ button,
   padding: var(--space-17);
 }
 
-.help h2 {
-  color: var(--color-text-inverse);
-}
+.help h2 { color: var(--color-text-inverse); }
 
 .help p {
   max-width: 680px;
