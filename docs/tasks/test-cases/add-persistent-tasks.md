@@ -3,47 +3,30 @@
 Module: `tasks`
 Function: Add persistent tasks
 Requirement: TASKS-001
-Risk level: Medium — core write path with database persistence, but no login or authorization rules.
-Scope: Happy path only, per task instructions.
+Risk level: Medium. Core write path with database persistence and immediate UI feedback; happy-path coverage only per task scope.
 
-## Automated cases
+## Automated happy-path scenarios
 
-**Scenario**: Add valid task and show it immediately
-**Given**: Visitor is on todo page and saved task list is empty.
-**When**: Visitor enters `Buy milk` in task title field and activates `Add task`.
-**Then**: Task list shows one active task titled `Buy milk` without page refresh.
-Traceability: TASKS-001 — New task appears after successful creation; new tasks start active.
+**Scenario**: Add task with valid title and see it immediately
+**Given**: Visitor opens todo page and existing saved list is loaded
+**When**: Visitor enters `Buy milk` in task title input and activates `Add task`
+**Then**: New task `Buy milk` appears in task list as active, title input is empty, total count increases by 1, active count increases by 1, completion meter reflects new active task, and saved-progress feedback shows saved state.
 
-**Scenario**: Trim whitespace before saving task title
-**Given**: Visitor is on todo page and saved task list is empty.
-**When**: Visitor enters `  Walk dog  ` in task title field and activates `Add task`.
-**Then**: Task list shows one active task titled `Walk dog`, with no leading or trailing spaces.
-Traceability: TASKS-001 — Trim leading/trailing whitespace before save; accept trimmed titles from 1 to 80 characters.
+**Scenario**: Save new task to database and keep it after refresh
+**Given**: Visitor opens todo page and existing saved list is loaded
+**When**: Visitor enters `Plan weekend` in task title input, activates `Add task`, waits until saved-progress feedback shows saved state, and refreshes page
+**Then**: Task `Plan weekend` appears after reload as active, with total count and completion meter including that task.
 
-**Scenario**: Accept duplicate task titles as separate active tasks
-**Given**: Visitor is on todo page and saved task list already contains one active task titled `Read book`.
-**When**: Visitor enters `Read book` in task title field and activates `Add task`.
-**Then**: Task list shows two separate active tasks titled `Read book`.
-Traceability: TASKS-001 — Accept duplicate titles as separate tasks; new tasks start active.
+**Scenario**: Trim title before save on successful add
+**Given**: Visitor opens todo page and existing saved list is loaded
+**When**: Visitor enters `  Walk dog  ` in task title input and activates `Add task`
+**Then**: New task appears as `Walk dog` with no leading or trailing spaces, starts active, and remains as `Walk dog` after refresh.
 
-**Scenario**: Clear input after successful creation
-**Given**: Visitor is on todo page and saved task list is empty.
-**When**: Visitor enters `Water plants` in task title field and activates `Add task`.
-**Then**: Task list shows active task `Water plants`, and task title field value is empty.
-Traceability: TASKS-001 — Input clears after successful creation.
+**Scenario**: Add duplicate titles as separate active tasks
+**Given**: Visitor opens todo page with one saved active task titled `Read book`
+**When**: Visitor enters `Read book` in task title input and activates `Add task`
+**Then**: Task list shows two separate active tasks titled `Read book`, total count increases by 1, and both duplicate tasks remain after refresh.
 
-**Scenario**: Persist new task after refresh
-**Given**: Visitor is on todo page and saved task list is empty.
-**When**: Visitor enters `Pay bills` in task title field, activates `Add task`, waits until creation succeeds, and refreshes page.
-**Then**: Task list still shows active task `Pay bills` after reload.
-Traceability: TASKS-001 — New task remains after refresh; persist tasks in database-backed storage.
+## Manual scenarios
 
-**Scenario**: Update counts, completion meter, and saved-progress feedback after add
-**Given**: Visitor is on todo page with one completed task `Done item` and one active task `Open item`.
-**When**: Visitor enters `New item` in task title field and activates `Add task`.
-**Then**: Task list shows active task `New item`; total count is `3`; active count is `2`; completed count is `1`; completion meter shows `1 of 3` complete; saved-progress feedback indicates changes are saved.
-Traceability: TASKS-001 — Counts, completion meter, and saved-progress feedback update after successful creation.
-
-## Manual cases
-
-None. All happy-path outcomes are observable through UI state and persisted reload behavior.
+None. All happy-path scenarios have observable UI and persistence results suitable for automation.
