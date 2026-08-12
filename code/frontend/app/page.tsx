@@ -1,4 +1,4 @@
-import AddPersistentTasks from "./components/AddPersistentTasks";
+import AddPersistentTasks from "../components/AddPersistentTasks";
 
 export default function HomePage() {
   return (
