@@ -82,8 +82,9 @@ export default function AddPersistentTasks() {
     const previousTasks = tasks;
     try {
       const response = await createTaskMock({ title: trimmed }, failNextSave);
-      setTasks([response.data, ...tasks]);
-      setSummary(summarizeTasks([response.data, ...tasks]));
+      const nextTasks = [response.data, ...tasks];
+      setTasks(nextTasks);
+      setSummary(response.summary);
       setTitle("");
       setFailNextSave(false);
       setMode("default");
@@ -147,7 +148,7 @@ export default function AddPersistentTasks() {
         {mode === "loading" ? <><div className={styles.skeleton} /><div className={styles.skeleton} /></> : null}
         {mode === "empty" ? <div className={styles.empty}>No saved tasks yet. Add first task above.</div> : null}
         {mode === "error" ? <div className={styles.loadError}>Saved tasks could not load. Try loading again.</div> : null}
-        {mode === "default" && tasks.map((task) => <article className={styles.task} key={task.id}><span className={task.isCompleted ? styles.checkDone : styles.check} aria-hidden /> <span>{task.title}</span></article>)}
+        {mode === "default" && tasks.map((task) => <article className={styles.task} key={task.id}><span className={task.isCompleted ? styles.checkDone : styles.check} aria-hidden="true" /> <span>{task.title}</span></article>)}
       </div>
     </section>
   );
