@@ -1,0 +1,304 @@
+.shell {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+}
+
+.todoPanel,
+.progressPanel {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.todoPanel {
+  padding: 24px;
+}
+
+.progressPanel {
+  align-self: start;
+  padding: 20px;
+  position: sticky;
+  top: 96px;
+}
+
+.panelHeader {
+  align-items: start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.panelHeader h2,
+.progressPanel h2 {
+  color: var(--color-text);
+  font-size: 32px;
+  margin: 0;
+}
+
+.progressPanel h2 {
+  font-size: 24px;
+}
+
+.progressPanel p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 12px 0 20px;
+}
+
+.eyebrow {
+  color: var(--color-primary);
+  font-size: 13px;
+  font-weight: 900;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.savedBadge,
+.savingBadge {
+  border: 1px solid var(--color-success-border, #A7F3D0);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 8px 11px;
+}
+
+.savedBadge {
+  background: var(--color-success-bg, #ECFDF5);
+  color: var(--color-success-text, #047857);
+}
+
+.savingBadge {
+  background: var(--color-primary-soft-2, #EFF6FF);
+  color: var(--color-primary-hover);
+}
+
+.demoControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.demoControls button,
+.deleteButton {
+  border: 1px solid var(--color-primary-border, #BFDBFE);
+  border-radius: 16px;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  cursor: pointer;
+  font-weight: 800;
+  padding: 10px 12px;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+.demoControls button:hover,
+.demoControls button:focus-visible {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  transform: translateY(-1px);
+}
+
+.demoControls button:disabled,
+.deleteButton:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+
+.errorNotice,
+.successNotice {
+  border-radius: 16px;
+  margin: 0 0 18px;
+  padding: 12px 14px;
+}
+
+.errorNotice {
+  background: var(--color-danger-bg, #FEF2F2);
+  border: 1px solid var(--color-danger-border, #FECACA);
+  color: var(--color-danger-text, #B91C1C);
+}
+
+.successNotice {
+  background: var(--color-success-bg, #ECFDF5);
+  border: 1px solid var(--color-success-border, #A7F3D0);
+  color: var(--color-success-text, #047857);
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.task,
+.completedTask,
+.skeletonRow {
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  min-height: 54px;
+  padding: 12px;
+  transition: border-color .18s ease, transform .18s ease;
+}
+
+.task {
+  background: var(--color-surface);
+}
+
+.completedTask {
+  background: var(--color-surface-soft);
+  color: var(--color-text-muted);
+}
+
+.task:hover,
+.completedTask:hover {
+  border-color: var(--color-primary-border, #BFDBFE);
+  transform: translateY(-1px);
+}
+
+.check {
+  align-items: center;
+  background: var(--color-primary-soft-2, #EFF6FF);
+  border: 2px solid var(--color-primary-check-border, #93C5FD);
+  border-radius: 10px;
+  color: var(--color-text-inverse);
+  display: inline-flex;
+  height: 28px;
+  justify-content: center;
+  width: 28px;
+}
+
+.completedTask .check {
+  background: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.taskText {
+  display: grid;
+  gap: 6px;
+}
+
+.taskText strong {
+  color: var(--color-text);
+  line-height: 1.35;
+}
+
+.completedTask .taskText strong {
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
+.taskText small {
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.deleteButton {
+  border-color: transparent;
+  color: var(--color-text-soft, #4B5563);
+  padding: 9px 10px;
+}
+
+.deleteButton:hover,
+.deleteButton:focus-visible {
+  background: var(--color-danger-bg, #FEF2F2);
+  color: var(--color-danger-text, #B91C1C);
+}
+
+.emptyState {
+  align-items: center;
+  background: var(--color-surface-soft);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: 22px;
+  color: var(--color-text-muted);
+  display: grid;
+  justify-items: center;
+  padding: 32px 18px;
+  text-align: center;
+}
+
+.emptyState strong {
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.emptyIcon {
+  align-items: center;
+  background: var(--color-primary-soft);
+  border-radius: 999px;
+  color: var(--color-primary);
+  display: flex;
+  height: 86px;
+  justify-content: center;
+  margin-bottom: 8px;
+  width: 86px;
+}
+
+.skeletonRow {
+  animation: pulse 1.2s linear infinite;
+  background: linear-gradient(90deg, var(--color-surface-soft), var(--color-border), var(--color-surface-soft));
+  border-color: var(--color-border);
+}
+
+.meterTrack {
+  background: var(--color-surface-soft);
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.meterFill {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-success));
+  border-radius: 999px;
+  display: block;
+  height: 100%;
+  transition: width .25s ease;
+}
+
+.stats {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 0;
+}
+
+.stats div {
+  align-items: center;
+  background: var(--color-surface-soft);
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.stats dt {
+  color: var(--color-text-muted);
+}
+
+.stats dd {
+  color: var(--color-text);
+  font-weight: 900;
+  margin: 0;
+}
+
+@keyframes pulse {
+  0% { opacity: .55; }
+  50% { opacity: 1; }
+  100% { opacity: .55; }
+}
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .progressPanel {
+    position: static;
+  }
+}
