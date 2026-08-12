@@ -18,11 +18,12 @@ export default function DeleteTasks() {
   const [viewState, setViewState] = useState<ViewState>("default");
   const [notice, setNotice] = useState("Saved tasks loaded.");
   const [deleteShouldFail, setDeleteShouldFail] = useState(false);
-  const visibleTasks = viewState === "empty" ? [] : tasks;
-  const meta = useMemo(() => getMeta(visibleTasks), [visibleTasks]);
-  const hasDeleteError = notice === deleteTasksErrors.delete.error.message;
+  const isEmpty = viewState === "empty";
   const isLoading = viewState === "loading";
   const isError = viewState === "error";
+  const visibleTasks = isEmpty ? [] : tasks;
+  const meta = useMemo(() => getMeta(visibleTasks), [visibleTasks]);
+  const hasDeleteError = notice === deleteTasksErrors.delete.error.message;
   const canShowTaskContent = !isLoading && !isError;
 
   function deleteTask(taskId: string) {
