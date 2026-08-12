@@ -20,6 +20,10 @@ export default function DeleteTasks() {
   const [deleteShouldFail, setDeleteShouldFail] = useState(false);
   const visibleTasks = viewState === "empty" ? [] : tasks;
   const meta = useMemo(() => getMeta(visibleTasks), [visibleTasks]);
+  const hasDeleteError = notice === deleteTasksErrors.delete.error.message;
+  const isLoading = viewState === "loading";
+  const isError = viewState === "error";
+  const canShowTaskContent = !isLoading && !isError;
 
   function deleteTask(taskId: string) {
     if (deleteShouldFail) {
@@ -45,7 +49,7 @@ export default function DeleteTasks() {
             <p className={styles.eyebrow}>Todo List App v5</p>
             <h2 id="deleteTasksTitle">Your tasks</h2>
           </div>
-          <span className={notice === deleteTasksErrors.delete.error.message || viewState === "error" ? styles.savingBadge : styles.savedBadge}>
+          <span className={hasDeleteError || isError ? styles.savingBadge : styles.savedBadge}>
             {notice === "Task deleted" ? "Saved" : "Ready"}
           </span>
         </div>
@@ -61,18 +65,18 @@ export default function DeleteTasks() {
           <button type="button" onClick={resetDemo}>Reset demo</button>
         </div>
 
-        {notice === deleteTasksErrors.delete.error.message && <p className={styles.errorNotice} role="alert">{notice}</p>}
+        {hasDeleteError && <p className={styles.errorNotice} role="alert">{notice}</p>}
         {notice === "Task deleted" && <p className={styles.successNotice} role="status">Task deleted. Saved list updated.</p>}
 
-        {viewState === "loading" && (
+        {isLoading && (
           <div className={styles.list} aria-label="Loading saved tasks" aria-busy="true">
             {["a", "b", "c"].map((key) => <div className={styles.skeletonRow} key={key} aria-hidden="true" />)}
           </div>
         )}
 
-        {viewState === "error" && <p className={styles.errorNotice} role="alert">{deleteTasksErrors.load.error.message}</p>}
+        {isError && <p className={styles.errorNotice} role="alert">{deleteTasksErrors.load.error.message}</p>}
 
-        {viewState !== "loading" && viewState !== "error" && visibleTasks.length === 0 && (
+        {canShowTaskContent && visibleTasks.length === 0 && (
           <div className={styles.emptyState}>
             <div className={styles.emptyIcon} aria-hidden="true">✓</div>
             <strong>No tasks here. Add one above to start your list.</strong>
@@ -80,7 +84,7 @@ export default function DeleteTasks() {
           </div>
         )}
 
-        {viewState !== "loading" && viewState !== "error" && visibleTasks.length > 0 && (
+        {canShowTaskContent && visibleTasks.length > 0 && (
           <ul className={styles.list} aria-live="polite">
             {visibleTasks.map((task) => (
               <li className={task.isCompleted ? styles.completedTask : styles.task} key={task.id}>
