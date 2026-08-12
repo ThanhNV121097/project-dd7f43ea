@@ -1,7 +1,7 @@
 # Service & Interface Design — Todo List App v5
 
 Last updated: 2026-08-12
-Source: `docs/tasks/SRS.md`, `docs/architecture/erd.md`, `docs/architecture/overview.md`
+Source: `docs/tasks/SRS.md`, `docs/architecture/erd.md`, `docs/architecture/overview.md`; story extension: `docs/tasks/stories/complete-tasks.md`
 
 ## 1. Service map
 
@@ -13,7 +13,7 @@ flowchart LR
 
 | Service | Responsibility | Owns (tables) | Depends on | Deploy unit |
 |---|---|---|---|---|
-| Frontend web app | Render single todo page, page states, accessible controls, user-facing validation messages, and saved-progress feedback. | none | Go API service | Next.js container |
+| Frontend web app | Render single todo page, page states, accessible controls, user-facing validation messages, optimistic completion toggle, rollback on save failure, and saved-progress feedback. | none | Go API service | Next.js container |
 | Go API service | Own task persistence contract, validate all external API input, expose task CRUD endpoints, run migrations, and translate database failures to stable errors. | `tasks` | PostgreSQL | Go container |
 | PostgreSQL | Durable storage for shared todo list. | physical storage for `tasks` | none | PostgreSQL database |
 
@@ -66,6 +66,8 @@ Every non-2xx response, from every endpoint, has this shape:
 ```
 
 Consumers branch on `code`. `message` is display text and may be reworded at any time without notice, except field-level validation messages explicitly required by SRS. `details[].code` is machine-readable and closed per error instance.
+
+**Mock contract note for Complete tasks** — approved UI mock used local-only `SAVE_FAILED` / `LOAD_FAILED` error codes and summary fields `total`, `active`, `completed`, `completion_rate`. Backend keeps project-wide API contract instead: `BAD_REQUEST`/`VALIDATION_FAILED`/`NOT_FOUND`/`RATE_LIMITED`/`UNAVAILABLE`/`INTERNAL` and `summary.total_count`/`active_count`/`completed_count`/`completion_percent`. Reason: merged service contract already defines closed error catalog and list envelope; adding mock-specific codes or summary names would create second API shape. Frontend integration must map generic non-2xx task toggle failures to existing UI copy: `Status could not be saved. Task returned to last saved state.`
 
 **Error catalog** — full closed set for this project.
 
@@ -326,6 +328,23 @@ No other fields are accepted. Title editing is out of scope.
 | `UNAVAILABLE` | 503 | Database unavailable, update timeout, service starting, or service draining. |
 | `INTERNAL` | 500 | Unexpected backend failure. |
 
+**Repository operation**
+
+```sql
+UPDATE tasks
+SET is_completed = $1,
+    updated_at = CASE
+        WHEN is_completed IS DISTINCT FROM $1 THEN now()
+        ELSE updated_at
+    END
+WHERE id = $2
+RETURNING id, title, is_completed, created_at, updated_at;
+```
+
+Use parameterized SQL. No lookup by title. A zero-row result maps to `NOT_FOUND`.
+
+**Mock compatibility** — approved UI mock returned `{ tasks, summary }` after update. Backend returns only updated task object to keep write endpoint small and match existing contract. Frontend integration must replace selected row by `id` locally and recalculate counts/meter, or call `GET /api/v1/tasks` after success if it needs server-derived summary. This is intentional because ERD gives all fields needed for local recalculation and no reorder is caused by status change.
+
 **Notes** — frontend may update optimistically but must roll back to last saved state on non-2xx and show error notice. Backend persists exact requested boolean. Counts, completion meter, task styling, and saved-progress feedback update from success response plus local recalculation or follow-up list load.
 
 ### 3.5 `DELETE /api/v1/tasks/{id}`
@@ -425,7 +444,15 @@ No third-party calls or external-service dependencies. No secrets or provider se
 | TASKS-004 Delete tasks | `DELETE /api/v1/tasks/{id}`, `GET /api/v1/tasks` | Delete targets stable id; list verifies removal. |
 | TASKS-005 Polish todo page | all task endpoints | API exposes loading/error/saved data states and stable errors for UI feedback. |
 
-## 10. Open questions
+## 10. Migration plan for Complete tasks
+
+| Step | Forward | Backward | Safe on populated table |
+|---|---|---|---|
+| 1 | No schema change; reuse `tasks.is_completed` and `tasks.updated_at`. | No schema rollback. | Yes; no table rewrite or lock beyond normal row update. |
+| 2 | Add `PATCH /api/v1/tasks/{id}` handler and repository update using primary key and parameterized SQL. | Roll back code to previous service revision. | Yes; requests update one selected row only. |
+| 3 | Frontend integration sends `{"is_completed": boolean}` and handles non-2xx with rollback to last saved task state. | Roll back frontend integration to mock/static behavior if needed. | Yes; no data migration. |
+
+## 11. Open questions
 
 | Question | Owner | Blocking |
 |---|---|---|
