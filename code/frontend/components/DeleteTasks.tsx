@@ -89,7 +89,7 @@ export default function DeleteTasks() {
                   <strong>{task.title}</strong>
                   <small>{task.isCompleted ? "Completed" : "Active"} · id {task.id}</small>
                 </span>
-                <button className={styles.deleteButton} type="button" aria-label="Delete task" onClick={() => deleteTask(task.id)} disabled={viewState === "loading"}>
+                <button className={styles.deleteButton} type="button" aria-label="Delete task" onClick={() => deleteTask(task.id)}>
                   Delete
                 </button>
               </li>
