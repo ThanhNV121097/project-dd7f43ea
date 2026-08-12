@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import {
   polishTodoEmptyResponse,
   polishTodoMockError,
@@ -51,20 +51,21 @@ export default function PolishTodoPage() {
     }, 180);
   }
 
-  function addTask(event: React.FormEvent<HTMLFormElement>) {
+  function addTask(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const nextTitle = title.trim();
     if (!nextTitle) {
       setTaskError("Enter a task title.");
       return;
     }
+    const now = new Date().toISOString();
     setTasks((current) => [
       {
         id: crypto.randomUUID(),
         title: nextTitle.slice(0, 80),
         is_completed: false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+        created_at: now,
+        updated_at: now,
       },
       ...current,
     ]);
@@ -75,9 +76,10 @@ export default function PolishTodoPage() {
   }
 
   function toggleTask(id: string) {
+    const now = new Date().toISOString();
     setTasks((current) =>
       current.map((task) =>
-        task.id === id ? { ...task, is_completed: !task.is_completed, updated_at: new Date().toISOString() } : task,
+        task.id === id ? { ...task, is_completed: !task.is_completed, updated_at: now } : task,
       ),
     );
     confirm("Task completed");
