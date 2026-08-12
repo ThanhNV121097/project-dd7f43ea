@@ -1,0 +1,3 @@
+DROP INDEX IF EXISTS idx_tasks_created_at_id;
+DROP TABLE IF EXISTS tasks;
+DROP EXTENSION IF EXISTS pgcrypto;
