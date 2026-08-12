@@ -76,13 +76,14 @@ export default function PolishTodoPage() {
   }
 
   function toggleTask(id: string) {
+    const currentTask = tasks.find((task) => task.id === id);
     const now = new Date().toISOString();
     setTasks((current) =>
       current.map((task) =>
         task.id === id ? { ...task, is_completed: !task.is_completed, updated_at: now } : task,
       ),
     );
-    confirm("Task completed");
+    confirm(currentTask?.is_completed ? "Task marked active" : "Task completed");
   }
 
   function deleteTask(id: string) {
@@ -290,7 +291,7 @@ function ErrorState({ onRetry }: { onRetry: () => void }) {
   return (
     <div className={styles.loadError} role="alert">
       <strong>Could not load tasks. Retry keeps saved data safe.</strong>
-      <button type="button" className={styles.dangerButton} onClick={onRetry}>Retry</button>
+      <button type="button" className={styles.dangerButton} onClick={onRetry}>Retry loading tasks</button>
     </div>
   );
 }
