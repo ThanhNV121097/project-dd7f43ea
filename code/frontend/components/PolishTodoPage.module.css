@@ -14,11 +14,14 @@
   color: var(--color-text-inverse);
   padding: var(--space-4) var(--space-8);
   font-weight: 800;
-  transition: transform var(--duration-base) var(--easing);
+  transition: transform var(--duration-base) var(--easing), box-shadow var(--duration-fast) var(--easing);
 }
 
-.skipLink:focus {
+.skipLink:focus,
+.skipLink:focus-visible {
   transform: translateY(0);
+  outline: 0;
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--color-focus);
 }
 
 .header,
@@ -70,7 +73,7 @@
 .nav a,
 button,
 .primaryLink {
-  transition: transform var(--duration-fast) var(--easing), background var(--duration-fast) var(--easing), border-color var(--duration-fast) var(--easing), color var(--duration-fast) var(--easing);
+  transition: transform var(--duration-fast) var(--easing), background var(--duration-fast) var(--easing), border-color var(--duration-fast) var(--easing), color var(--duration-fast) var(--easing), box-shadow var(--duration-fast) var(--easing);
 }
 
 .menuButton {
@@ -339,7 +342,6 @@ button,
   flex-wrap: wrap;
   margin: var(--space-13) 0;
 }
-
 .filterButton,
 .filterActive,
 .ghostButton,
@@ -385,6 +387,18 @@ button,
 .dangerButton:hover,
 .dangerButton:focus-visible {
   background: var(--color-danger-hover-bg);
+}
+
+.menuButton:focus-visible,
+.primaryLink:focus-visible,
+.primaryButton:focus-visible,
+.form input:focus-visible,
+.checkButton:focus-visible,
+.deleteButton:focus-visible,
+.ghostButton:focus-visible,
+.dangerButton:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--color-focus);
 }
 
 .list {
